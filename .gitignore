@@ -1,4 +1,5 @@
 env
 video.mp4
 frame-*.jpg
+__pycache__
 
