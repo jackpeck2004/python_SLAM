@@ -1,9 +1,10 @@
+import cv2
 import math
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 
-class Sift(object):
+class Sift():
     def __init__(self, sigma, intervals):
         self.sigma = sigma
         self.intervals = intervals
@@ -11,25 +12,25 @@ class Sift(object):
     '''
     Implementation of the sift algorithm for feature detection
     '''
-    def sift(frame, sigma, intervals):
+    def sift(self, frame):
         # 1. Apply the gaussian blur of sigma to obtain the base image
-        base_frame = cv2.GaussianBlur(frame, (0, 0), sigmaX=sigma, sigmaY=sigma)
+        base_frame = cv2.GaussianBlur(frame, (0, 0), sigmaX=self.sigma, sigmaY=self.sigma)
 
         # 2. Obtain number of octaves (how many times can the image be halved to have at least a 1 px image size)
         shortest_side = min(frame.shape)
         num_octaves = math.floor(math.log(shortest_side, 2)) - 1
 
         # 3. Generate the Gaussian kernels (how much each image in the octave has to be blurred)
-        images_per_octave = intervals + 3 # account for the previous and next image in the same layer 
+        images_per_octave = self.intervals + 3 # account for the previous and next image in the same layer 
         k = math.sqrt(2) # TODO: possibly change it to 2 ** (1/intervals)
         # k = 2 ** (1. / intervals)
         g_kernels = [0] * images_per_octave # create a empty array which will contain the kernels for the current layer of the pyramid
-        g_kernels[0] = sigma # set the kernel for the first image to sigma
+        g_kernels[0] = self.sigma # set the kernel for the first image to sigma
         
         # fill in the kernels with the values needded from the previous image to reach k^n * sigma
         for i in range(1, images_per_octave):
-            sigma_prev = (k ** (i - 1)) * sigma
-            sigma_to_obtain = (k ** i) * sigma
+            sigma_prev = (k ** (i - 1)) * self.sigma
+            sigma_to_obtain = (k ** i) * self.sigma
             kernel = sigma_to_obtain ** 2 - sigma_prev ** 2
             g_kernels[i] = kernel
 
@@ -53,7 +54,7 @@ class Sift(object):
     def scale_space_and_image_pyramid():
         pass
 
-    def plot_images(images):
+    def plot_images(self, images):
         fig = plt.figure(figsize=(30, 20))
         rows, cols = 4, 3
         for idx, image in enumerate(images):
