@@ -4,7 +4,7 @@ import sys
 from sift import Sift
 
 cap = cv2.VideoCapture("video.mp4")
-sigma = 10
+sigma = 1.6
 intervals = 3
 s = Sift(sigma, intervals)
 
