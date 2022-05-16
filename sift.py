@@ -50,7 +50,7 @@ class Sift():
             kernel = sigma_to_obtain ** 2 - sigma_prev ** 2
             g_kernels[i] = kernel
 
-        print(g_kernels)
+        #print('gaussian kernels:', g_kernels)
 
         # 4. Create the Gaussian Images (blured)
         g_images = [] # create the array which will be filled with gaussian blured images
@@ -58,13 +58,13 @@ class Sift():
         # for each octave
         image = base_frame
         for octave in range(1, num_octaves):
-            print("octave", octave)
+            #print("octave", octave)
             # append the first image
             g_images_octave = [image]
 
             # for each gaussian_kernel, iterativley additionally blur the previous image starting from the base one
             for kernel in g_kernels:
-                print("kernel", kernel)
+                #print("kernel", kernel)
                 image = cv2.GaussianBlur(image, (0,0), sigmaX=kernel, sigmaY=kernel) # create the blured image and overwrite the current one
                 g_images_octave.append(image)
 
